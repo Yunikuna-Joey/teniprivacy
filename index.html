@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Privcacy Policy for Teni"> 
+    <title>Privacy Policy | Teni </title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+    <div class="container">
+        <h1>Privacy Policy</h1>
+        <p>Effective Date: 10/15/2024</p>
+
+        <p>At <strong>Teni</strong>, we are committed to protecting your privacy and ensuring transparency about how we collect, use, and manage your personal information. This privacy policy outlines what information we collect, how it is processed, and how you can manage or request the deletion of your data.</p>
+
+        <h2>Information We Collect</h2>
+        <p>We may collect the following types of information from you:</p>
+        <ul>
+            <li><strong>Personal Information:</strong> Includes details such as your name, Instagram user ID, and any other identifying information you provide directly through the chatbot.</li>
+            <li><strong>Messages:</strong> The content of messages you send through Instagram to interact with our chatbot.</li>
+            <li><strong>Automated Data:</strong> Data collected from the Instagram API such as sender and recipient IDs, timestamps, and metadata.</li>
+            <li><strong>Technical Data:</strong> Information such as your browser type, IP address, and usage patterns.</li>
+        </ul>
+
+        <h2>How We Use Your Information</h2>
+        <p>We use the information we collect for the following purposes:</p>
+        <ul>
+            <li><strong>To Provide Services:</strong> Use your messages and personal information to process requests or inquiries.</li>
+            <li><strong>User Recognition:</strong> Recognize you when you return to the chatbot.</li>
+            <li><strong>Analytics:</strong> Aggregate anonymized data for analytics and improving chatbot functionality.</li>
+            <li><strong>Communication:</strong> Send you notifications about service updates.</li>
+        </ul>
+
+        <h2>Data Sharing and Third Parties</h2>
+        <p>We do not sell your personal data to third parties. However, we may share your data with:</p>
+        <ul>
+            <li><strong>Service Providers:</strong> Third-party services to improve the chatbot experience.</li>
+            <li><strong>Legal Requirements:</strong> If required by law or legal processes.</li>
+        </ul>
+
+        <h2>Data Deletion</h2>
+        <p>You have the right to request the deletion of your personal data. To do so, contact us at <a href="mailto:feimagine11@gmail.com">feimagine11@gmail.com</a>.</p>
+
+        <h2>Security of Your Data</h2>
+        <p>We use industry-standard security measures to protect your personal information.</p>
+
+        <h2>Policy Updates</h2>
+        <p>This policy may be updated periodically. Check this page for the latest version.</p>
+
+        <h2>Contact Us</h2>
+        <p>If you have any questions about this policy, contact us at  <a href="mailto:feimagine11@gmail.com">feimagine11@gmail.com</a>.</p>
+    </div>
+
+    <!-- Chat Button -->
+    <button id="chatButton">Contact Us</button>
+
+    <!-- Chat Window -->
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">Contact Us</div>
+        <div class="chat-content" id="chatContent">
+            <!-- Contact Form Inside the Chat Window -->
+            <form style="padding-right: 20px" id="contactForm">
+                <input type="text" id="name" name="name" placeholder="Your Name" required>
+                <input type="email" id="email" name="email" placeholder="Your Email" required>
+                <textarea id="message" name="message" rows="4" placeholder="Your Message" required></textarea>
+            </form>
+            
+            <div class="chat-footer">
+                <button id="submitButton" type="submit" form="contactForm">Send</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script> 
+
+        // Get elements
+        var chatButton = document.getElementById("chatButton");
+        var chatWindow = document.getElementById("chatWindow");
+        var submitButton = document.getElementById("submitButton");
+        var contactForm = document.getElementById("contactForm");
+    
+        // Toggle chat window visibility
+        chatButton.onclick = function() {
+            if (chatWindow.style.display === "none" || chatWindow.style.display === "") {
+                chatWindow.style.display = "block";
+            } else {
+                chatWindow.style.display = "none";
+            }
+        };
+    
+        // Handle form submission
+        contactForm.onsubmit = function(event) {
+            event.preventDefault(); // Prevent the form from submitting the traditional way
+    
+            // Collect form data
+            var name = document.getElementById("name").value;
+            var email = document.getElementById("email").value;
+            var message = document.getElementById("message").value;
+    
+            var data = { 
+                name: name, 
+                email: email,
+                message: message
+            };
+    
+            console.log("Form submitted:", { name, email, message });
+            // Looking for this change
+            fetch('https://joeydev.pythonanywhere.com/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json(); // Parse the response as JSON
+            })
+            .then(data => {
+                if (data.status === "success") {
+                    alert("Message sent! We will get back to you soon.");
+                    contactForm.reset(); // Clear the form
+                } else {
+                    alert("Failed to send the message.");
+                }
+            })
+            .catch(error => console.error("Error:", error));
+    
+            // Display a confirmation or clear the chat window content
+            alert("Message sent! We will get back to you soon.");
+        };
+    
+    </script>
+
+</body>
+
+</html>
